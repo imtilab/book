@@ -1,9 +1,44 @@
 <!DOCTYPE html>
 <html>
+    <head>
+        <script>
+            function myFunction() {
+                console.log("downloading")
+                // var link = document.createElement('a');
+                // link.href = url;
+                // link.download = 'https://imtilab.github.io/book/pdf/islamic/ma-ma-ma-baba_arif-azad.pdf';
+                // link.dispatchEvent(new MouseEvent('click'));
+
+                fetch('https://github.com/imtilab/book/blob/main/pdf/islamic/ma-ma-ma-baba_arif-azad.pdf')
+                    .then(response => response.blob())
+                    .then(blob => {
+                    // Create a blob URL for the PDF data
+                    var url = window.URL.createObjectURL(blob);
+
+                    // Create a link element to trigger the download
+                    var a = document.createElement("a");
+                    a.href = url;
+                    a.download = "downloaded.pdf"; // Set the desired file name
+                    document.body.appendChild(a);
+
+                    // Trigger a click event on the link element to initiate the download
+                    a.click();
+
+                    // Clean up by revoking the blob URL and removing the link element
+                    window.URL.revokeObjectURL(url);
+                    document.body.removeChild(a);
+                    })
+                    .catch(error => {
+                    console.error("Failed to download the PDF file: ", error);
+                    });
+            }
+            
+            </script>
+    </head>
 <body>
 
 <h1>My First Heading</h1>
 <p>My first paragraph.</p>
-
+<button type="button" onclick="myFunction()">download</button>
 </body>
 </html>
